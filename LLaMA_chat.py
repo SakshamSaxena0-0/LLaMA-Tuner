@@ -9,6 +9,7 @@ import pandas as pd
 from IPython.display import display
 from google.colab import userdata
 from peft import LoraConfig, get_peft_model, TaskType
+from transformers import TrainingArguments, Trainer
 
 
 
@@ -105,3 +106,67 @@ lora_config = LoraConfig(
 
 model = get_peft_model(model, lora_config)
 print("LoRA layers added to the model!")
+
+
+def tokenize_function(examples):
+    full_texts = [
+        f"{p}\n{r}" for p, r in zip(examples["prompt"], examples["response"])
+    ]
+    return tokenizer(full_texts, truncation=True, max_length=512)
+
+train_tokenized = train_dataset.map(tokenize_function, batched=True)
+eval_tokenized = eval_dataset.map(tokenize_function, batched=True)
+
+
+
+
+
+training_args = TrainingArguments(
+    output_dir="./results",
+    overwrite_output_dir=True,
+    num_train_epochs=3,
+    per_device_train_batch_size=2,
+    per_device_eval_batch_size=2,
+    evaluation_strategy="epoch",
+    save_strategy="epoch",
+    logging_steps=50,
+    fp16=True,  # for faster training
+    report_to="none"
+)
+
+
+def tokenize_function(examples):
+    full_texts = [
+        f"{p}\n{r}" for p, r in zip(examples["prompt"], examples["response"])
+    ]
+    # Add padding to ensure consistent sequence lengths
+    tokenized_inputs = tokenizer(
+        full_texts,
+        truncation=True,
+        max_length=512,
+        padding="max_length",  # Pad to the maximum length
+        return_tensors="pt"  # Return PyTorch tensors
+    )
+    return tokenized_inputs
+
+train_tokenized = train_dataset.map(tokenize_function, batched=True)
+eval_tokenized = eval_dataset.map(tokenize_function, batched=True)
+
+
+
+model.eval()
+
+test_prompt = "User: What is an IPhone?\nAssistant:"
+inputs = tokenizer(test_prompt, return_tensors="pt").to("cuda")
+
+with torch.no_grad():
+    outputs = model.generate(
+        **inputs,
+        max_new_tokens=100,
+        do_sample=True,
+        top_k=50,
+        top_p=0.9
+    )
+
+print("=== Model Reply ===")
+print(tokenizer.decode(outputs[0], skip_special_tokens=True))
