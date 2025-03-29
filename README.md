@@ -13,15 +13,15 @@ The project leverages the LLaMA model architecture to perform fine-tuning on a c
 ## Contributing
 Contributions are welcome! If you have suggestions or improvements:
 
-Fork the repository.
+° Fork the repository.
 
-Create your feature branch.
+° Create your feature branch.
+ 
+° Commit your changes.
 
-Commit your changes.
+° Push to the branch.
 
-Push to the branch.
-
-Open a Pull Request.
+° Open a Pull Request.
 
 
 
