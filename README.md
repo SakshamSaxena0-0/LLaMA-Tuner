@@ -4,7 +4,7 @@ LLaMA-Tuner is a project for fine-tuning the LLaMA model on a custom dataset. Th
 
 ## Overview
 
-The project leverages the LLaMA model architecture to perform fine-tuning on a custom dataset. I used Mera-Llama-3-8B
+The project leverages the LLaMA model architecture to perform fine-tuning on a custom dataset. I used Meta-Llama-3-8B
  It demonstrates:
 - **Data Loading & Preprocessing:** Steps to ingest and clean your dataset.
 
