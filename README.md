@@ -26,5 +26,11 @@ Contributions are welcome! If you have suggestions or improvements:
 
 ° Open a Pull Request.
 
+## License
+This project is licensed under the MIT License – see the LICENSE file for details.
 
-
+## Author
+<ul dir="auto">
+Name:- Saksham Saxena<br>
+Email:- sakshamsaxena09004@gmail.com
+</ul>
